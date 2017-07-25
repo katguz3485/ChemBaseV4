@@ -41,10 +41,6 @@ public class DashboardActivity extends AppCompatActivity {
     ProgressBar progress;
     @BindView(R.id.dashboard_nav)
     NavigationView navigationView;
-   /* @BindView(R.id.cidNumber)
-    EditText cidNumberInput;*/
-  /*  @BindView(R.id.dataDownload)
-    Button getData;*/
 
 
     @Override
@@ -64,17 +60,6 @@ public class DashboardActivity extends AppCompatActivity {
 
 
     }
-
-/*    @OnClick(R.id.dataDownload)
-    public void getInputData (Button button) {
-        getMyData();
-    }
-
-
-    public String getMyData() {
-        cidNumberInput.getText().toString();
-        return String.valueOf(cidNumberInput);
-    }*/
 
     @Override
     public void onBackPressed() {
@@ -139,18 +124,6 @@ public class DashboardActivity extends AppCompatActivity {
 
 
 
-/*    private void setupTextFieldsWithCid() {
-
-        if (cidNumberInput == null) {
-            cidValue = cidNumberInput.getText();
-        } else {
-            Toast.makeText(getApplication(), "Enter a cid value",
-                    Toast.LENGTH_LONG).show();
-
-        }
-
-
-    }*/
 
     private void showFragment(Fragment fragment) {
 

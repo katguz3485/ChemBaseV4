@@ -1,18 +1,21 @@
 package com.example.katguz.android.chembase.ui.chemicals;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.example.katguz.android.chembase.model.Chemical;
-import com.example.katguz.android.chembase.model.PropertyTable;
+import com.example.katguz.android.chembase.model.Property;
 import com.example.katguz.android.chembase.model.events.HideProgress;
 import com.example.katguz.android.chembase.model.events.ShowProgress;
 import com.example.katguz.android.chembase.network.ApiClient;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,15 +26,12 @@ public class ChemicalsPresenter {
 
 
     private ApiClient apiClient;
-    private Context context;
-    private SharedPreferences preferences;
-
-    private PropertyTable propertyTable;
 
 
     private ChemicalsMvpView view;
     private ChemicalsAdapter adapter;
 
+    Bitmap bm;
 
     public void setAdapter(ChemicalsAdapter adapter) {
         this.adapter = adapter;
@@ -56,22 +56,20 @@ public class ChemicalsPresenter {
         EventBus.getDefault().post(new ShowProgress());
 
         //TODO CID value from edit text
-        apiClient.getService().getData(123).enqueue(new Callback<Chemical>() {
+        apiClient.getService().getChemicalDatda(123).enqueue(new Callback<Chemical>() {
             @Override
             public void onResponse(Call<Chemical> call, Response<Chemical> response) {
                 if (response.isSuccessful()) {
 
 
-                   // adapter.setData();
-/*
-                    molecularFormula = String.valueOf(chemical.getPropertyTable().getProperties().get(0).getMolecularFormula());
-                    molecularMass = String.valueOf(chemical.getPropertyTable().getProperties().get(0).getMolecularWeight());
-                    cidNumber = chemical.getPropertyTable().getProperties().get(0).getCID();
-                    inChINumber = chemical.getPropertyTable().getProperties().get(0).getInChI();*/
+                    List<Property> list = response.body().getPropertyTable().getProperties();
+                    adapter.setData(list);
 
 
                     Timber.d("Response", response.body().getPropertyTable().getProperties().get(0).getCanonicalSMILES());
-                    // adapter.setData();
+
+                } else {
+                    view.showErrorMessage();
                 }
                 EventBus.getDefault().post(new HideProgress());
 
@@ -81,9 +79,36 @@ public class ChemicalsPresenter {
             @Override
             public void onFailure(Call<Chemical> call, Throwable t) {
                 EventBus.getDefault().post(new HideProgress());
+                view.showErrorMessage();
+
+
             }
         });
     }
+
+    public void getImagePng() {
+        apiClient.getService().getImagePng(123).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    bm = BitmapFactory.decodeStream(response.body().byteStream());
+
+                    Timber.d("Bitmap");
+
+                } else {
+                    view.showErrorMessage();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                view.showErrorMessage();
+            }
+        });
+
+
+    }
+
 
 
 }

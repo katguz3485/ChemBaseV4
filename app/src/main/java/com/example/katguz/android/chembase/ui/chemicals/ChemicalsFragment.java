@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.katguz.android.chembase.App;
 import com.example.katguz.android.chembase.R;
@@ -41,10 +41,6 @@ public class ChemicalsFragment extends Fragment implements ChemicalsMvpView {
     @BindView(R.id.chemicals_recycler)
     RecyclerView recyclerView;
 
-    @BindView(R.id.cidNumber)
-    EditText cidNumberInput;
-
-
 
     private ChemicalsAdapter adapter;
 
@@ -53,6 +49,7 @@ public class ChemicalsFragment extends Fragment implements ChemicalsMvpView {
     public void onStart() {
         super.onStart();
         presenter.starDownloadData();
+        presenter.getImagePng();
 
     }
 
@@ -73,6 +70,7 @@ public class ChemicalsFragment extends Fragment implements ChemicalsMvpView {
         presenter.attach(this);
         ((DashboardActivity) getActivity()).getSupportActionBar().setTitle(R.string.chemicals_title);
         adapter = new ChemicalsAdapter();
+        setChemicalAdapter(adapter);
         presenter.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -82,8 +80,20 @@ public class ChemicalsFragment extends Fragment implements ChemicalsMvpView {
 
 
     @Override
-    public void setAdapter(ChemicalsAdapter adapter) {
+    public void setChemicalAdapter(ChemicalsAdapter adapter) {
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void showErrorMessage() {
+
+        Toast.makeText(getContext(), getString(R.string.error_message), Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void getBitmap() {
+
     }
 
 

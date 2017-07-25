@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClient {
 
 
-    private static final String BASE_URL = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/";
+    public static final String BASE_URL = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/";
 
     private ApiService service;
 
@@ -51,6 +51,7 @@ public class ApiClient {
                 return chain.proceed(request);
             }
         };
+
 
         // Add interceptors to OkHttpClient
         clientBuilder.addInterceptor(loggingInterceptor);

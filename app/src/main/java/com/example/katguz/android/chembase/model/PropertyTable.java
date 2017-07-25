@@ -13,7 +13,7 @@ public class PropertyTable {
 
     @SerializedName("Properties")
     @Expose
-    private List<Property> properties = null;
+    private List<Property> properties;
 
     public List<Property> getProperties() {
         return properties;
