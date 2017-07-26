@@ -2,7 +2,6 @@ package com.example.katguz.android.chembase.ui.chemicals;
 
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import com.example.katguz.android.chembase.R;
 import com.example.katguz.android.chembase.model.Property;
 import com.example.katguz.android.chembase.model.PropertyTable;
 import com.example.katguz.android.chembase.network.ApiClient;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +22,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
+
+import static com.example.katguz.android.chembase.ui.chemicals.ChemicalsPresenter.bm;
 
 public class ChemicalsAdapter extends RecyclerView.Adapter<ChemicalsAdapter.ChemicalsHolder> {
 
@@ -38,6 +38,16 @@ public class ChemicalsAdapter extends RecyclerView.Adapter<ChemicalsAdapter.Chem
     @Inject
     ApiClient apiClient;
 
+
+    @Inject
+    ChemicalsPresenter presenter;
+
+
+    public ChemicalsAdapter(Context context) {
+        this.context = context;
+    }
+
+
     public void setData(List<Property> data) {
         propertyTable.getProperties();
         properties.clear();
@@ -49,6 +59,7 @@ public class ChemicalsAdapter extends RecyclerView.Adapter<ChemicalsAdapter.Chem
     @Override
     public ChemicalsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Timber.e("onCreateViewHolder");
+
         return new ChemicalsHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_adapter, parent, false));
 
     }
@@ -67,14 +78,13 @@ public class ChemicalsAdapter extends RecyclerView.Adapter<ChemicalsAdapter.Chem
 
     public class ChemicalsHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.compoundFormula)
+        @BindView(R.id.chemicalFormula)
         ImageView chemicalFormula;
-
 
         @BindView(R.id.name)
         TextView name;
 
-        //TODO Add some new textviews
+
         @BindView(R.id.cidNumber)
         TextView cidNumber;
 
@@ -87,26 +97,23 @@ public class ChemicalsAdapter extends RecyclerView.Adapter<ChemicalsAdapter.Chem
         }
 
         public void setChemical(Property property) {
+            //ChemicalsPresenter presenter= new ChemicalsPresenter(apiClient);
+
             Timber.e("setChemical");
             name.setText(property.getIUPACName());
             cidNumber.setText(property.getCID());
             molcular_weight.setText(property.getMolecularFormula());
+            // chemicalFormula.setImageBitmap(presenter.getImage());
+            chemicalFormula.setImageBitmap(bm);
 
-            String urlStr = "http://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/2244/PNG";
+           /* String urlStr = "http://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/2244/PNG";
             String url = Uri.parse(urlStr)
                     .buildUpon()
                     .build()
                     .toString();
-            Picasso.with(context).load(url);
-
-          //  Bitmap bm = view.getImagePng();
-            //chemicalFormula.setImageBitmap(bm);
-
-            /*bm = BitmapFactory.decodeStream(response.body().byteStream());
-
-            Timber.d("Bitmap", response.body().byteStream());
-*/
-
+            Picasso.with(context).load(url).into(chemicalFormula);
+            Bitmap bm = BitmapFactory.decodeFile(url);
+            chemicalFormula.setImageBitmap(bm);*/
 
         }
     }

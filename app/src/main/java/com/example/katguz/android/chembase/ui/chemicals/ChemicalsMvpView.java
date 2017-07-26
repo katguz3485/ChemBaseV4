@@ -8,5 +8,5 @@ public interface ChemicalsMvpView {
 
     void showErrorMessage();
 
-    void getBitmap();
+
 }

@@ -49,7 +49,7 @@ public class ChemicalsFragment extends Fragment implements ChemicalsMvpView {
     public void onStart() {
         super.onStart();
         presenter.starDownloadData();
-        presenter.getImagePng();
+        presenter.getImage();
 
     }
 
@@ -69,7 +69,7 @@ public class ChemicalsFragment extends Fragment implements ChemicalsMvpView {
         ButterKnife.bind(this, view);
         presenter.attach(this);
         ((DashboardActivity) getActivity()).getSupportActionBar().setTitle(R.string.chemicals_title);
-        adapter = new ChemicalsAdapter();
+        adapter = new ChemicalsAdapter(getContext());
         setChemicalAdapter(adapter);
         presenter.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -91,10 +91,6 @@ public class ChemicalsFragment extends Fragment implements ChemicalsMvpView {
 
     }
 
-    @Override
-    public void getBitmap() {
-
-    }
 
 
 }
