@@ -17,6 +17,8 @@ public class App extends Application {
 
     private AppComponent appComponent;
 
+    private static App instance = new App();
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -26,6 +28,9 @@ public class App extends Application {
 
     }
 
+    public static App getInstance() {
+        return instance;
+    }
 
     private void initRealm() {
         Realm.init(this);

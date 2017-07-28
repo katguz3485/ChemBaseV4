@@ -7,8 +7,8 @@ import com.google.gson.annotations.SerializedName;
 public class Chemical {
 
     @SerializedName("PropertyTable")
-    @Expose
-    private PropertyTable propertyTable;
+@Expose
+private PropertyTable propertyTable;
 
     public PropertyTable getPropertyTable() {
         return propertyTable;

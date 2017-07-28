@@ -49,7 +49,7 @@ public class ChemicalsFragment extends Fragment implements ChemicalsMvpView {
     public void onStart() {
         super.onStart();
         presenter.starDownloadData();
-        presenter.getImage();
+        // presenter.getImage();
 
     }
 
@@ -90,7 +90,6 @@ public class ChemicalsFragment extends Fragment implements ChemicalsMvpView {
         Toast.makeText(getContext(), getString(R.string.error_message), Toast.LENGTH_SHORT).show();
 
     }
-
 
 
 }

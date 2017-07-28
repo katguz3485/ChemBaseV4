@@ -26,15 +26,11 @@ public class ChemicalsPresenter {
 
 
     private ApiClient apiClient;
-
-
     private ChemicalsMvpView view;
     private ChemicalsAdapter adapter;
 
 
-    public static Bitmap bm;
-
-
+    public Bitmap bm;
 
 
     public void setAdapter(ChemicalsAdapter adapter) {
@@ -90,7 +86,8 @@ public class ChemicalsPresenter {
         });
     }
 
-    public Bitmap getImage() {
+
+    public void getImage() {
         apiClient.getService().getImagePng(123).enqueue(new Callback<ResponseBody>() {
 
 
@@ -98,9 +95,11 @@ public class ChemicalsPresenter {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
 
+                  /*  List<Property> list = response.body().getPropertyTable().getProperties();
+                    adapter.setData(list);*/
+
                     bm = BitmapFactory.decodeStream(response.body().byteStream());
-
-
+                    // adapter.setBm(bm);
                     Timber.d("Bitmap");
 
                 } else {
@@ -114,10 +113,5 @@ public class ChemicalsPresenter {
             }
         });
 
-  return bm; }
-
-
-
-
+    }
 }
-

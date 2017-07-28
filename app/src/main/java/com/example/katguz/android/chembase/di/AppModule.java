@@ -3,6 +3,7 @@ package com.example.katguz.android.chembase.di;
 import android.content.Context;
 
 import com.example.katguz.android.chembase.network.ApiClient;
+import com.example.katguz.android.chembase.ui.chemicals.ChemicalsPresenter;
 import com.example.katguz.android.chembase.utils.PrefsManager;
 
 import javax.inject.Singleton;
@@ -24,11 +25,11 @@ public class AppModule {
 
     @Provides
     @Singleton
-    Context providesContext(){
+    Context providesContext() {
         return context;
     }
 
-   @Provides
+    @Provides
     @Singleton
     PrefsManager providesPrefsManager(Context context) {
         return new PrefsManager(context);
@@ -39,6 +40,14 @@ public class AppModule {
     ApiClient providesApiClient(PrefsManager prefsManager) {
 
         return new ApiClient(prefsManager);
+    }
+
+
+    @Provides
+    @Singleton
+    ChemicalsPresenter providesPresenter(PrefsManager prefsManager) {
+
+        return new ChemicalsPresenter(providesApiClient(prefsManager));
     }
 }
 

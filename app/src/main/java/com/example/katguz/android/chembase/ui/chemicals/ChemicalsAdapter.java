@@ -2,6 +2,7 @@ package com.example.katguz.android.chembase.ui.chemicals;
 
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.example.katguz.android.chembase.R;
 import com.example.katguz.android.chembase.model.Property;
 import com.example.katguz.android.chembase.model.PropertyTable;
 import com.example.katguz.android.chembase.network.ApiClient;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +25,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-import static com.example.katguz.android.chembase.ui.chemicals.ChemicalsPresenter.bm;
-
 public class ChemicalsAdapter extends RecyclerView.Adapter<ChemicalsAdapter.ChemicalsHolder> {
 
 
@@ -32,19 +32,21 @@ public class ChemicalsAdapter extends RecyclerView.Adapter<ChemicalsAdapter.Chem
 
     PropertyTable propertyTable = new PropertyTable();
 
+
     @Inject
     Context context;
 
-    @Inject
-    ApiClient apiClient;
+    private ApiClient apiClient;
 
 
     @Inject
-    ChemicalsPresenter presenter;
+    ChemicalsPresenter presenter = new ChemicalsPresenter(apiClient);
 
 
+    @Inject
     public ChemicalsAdapter(Context context) {
         this.context = context;
+
     }
 
 
@@ -52,13 +54,21 @@ public class ChemicalsAdapter extends RecyclerView.Adapter<ChemicalsAdapter.Chem
         propertyTable.getProperties();
         properties.clear();
         properties.addAll(data);
+
         notifyDataSetChanged();
 
     }
 
+ /*   public void setBm() {
+        presenter.getImage();
+        notifyDataSetChanged();
+    }
+*/
+
     @Override
     public ChemicalsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Timber.e("onCreateViewHolder");
+
 
         return new ChemicalsHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_adapter, parent, false));
 
@@ -67,7 +77,9 @@ public class ChemicalsAdapter extends RecyclerView.Adapter<ChemicalsAdapter.Chem
     @Override
     public void onBindViewHolder(ChemicalsHolder holder, int position) {
         Timber.e("onBindViewHolder");
+
         holder.setChemical(properties.get(position));
+
     }
 
     @Override
@@ -91,30 +103,41 @@ public class ChemicalsAdapter extends RecyclerView.Adapter<ChemicalsAdapter.Chem
         @BindView(R.id.molecularWeight)
         TextView molcular_weight;
 
+
         public ChemicalsHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
         public void setChemical(Property property) {
-            //ChemicalsPresenter presenter= new ChemicalsPresenter(apiClient);
+            // presenter = new ChemicalsPresenter(apiClient);
 
             Timber.e("setChemical");
             name.setText(property.getIUPACName());
             cidNumber.setText(property.getCID());
             molcular_weight.setText(property.getMolecularFormula());
             // chemicalFormula.setImageBitmap(presenter.getImage());
-            chemicalFormula.setImageBitmap(bm);
 
-           /* String urlStr = "http://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/2244/PNG";
+
+            String urlStr = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/2244/PNG";
             String url = Uri.parse(urlStr)
                     .buildUpon()
                     .build()
                     .toString();
-            Picasso.with(context).load(url).into(chemicalFormula);
-            Bitmap bm = BitmapFactory.decodeFile(url);
-            chemicalFormula.setImageBitmap(bm);*/
+
+            Picasso.with(context)
+                    .load(url)
+                    .into(chemicalFormula);
+
+
+            // chemicalFormula.setImageBitmap(bm);
+
 
         }
+
+
     }
 }
+
+
+

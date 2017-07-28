@@ -28,6 +28,7 @@ public class Property {
     @Expose
     private String iUPACName;
 
+
     public String getCID() {
         return cID;
     }
