@@ -2,7 +2,6 @@ package com.example.katguz.android.chembase.network;
 
 import com.example.katguz.android.chembase.model.Chemical;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -28,9 +27,9 @@ public interface ApiService {
     @GET("compound/cid/{id}/property/IUPACName,CanonicalSMILES,MolecularFormula,MolecularWeight,InChI")
     Call<Chemical> getChemicalDatda(@Path("id") Integer id);*/
 
-    @GET("compound/cid/{cidValue}/PNG")
+ /*   @GET("compound/cid/{cidValue}/PNG")
     Call<ResponseBody> getImagePng(@Path("cidValue") Integer cidValue);
-
+*/
     @GET("compound/cid/{cidValue}/property/IUPACName,CanonicalSMILES,MolecularFormula,MolecularWeight,InChI,InChIKey/JSON")
     Call<Chemical> getChemicalDatda(@Path("cidValue")Integer cidValue);
 

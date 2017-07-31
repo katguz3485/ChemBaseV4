@@ -13,8 +13,12 @@ import android.widget.TextView;
 import com.example.katguz.android.chembase.R;
 import com.example.katguz.android.chembase.model.Property;
 import com.example.katguz.android.chembase.model.PropertyTable;
+import com.example.katguz.android.chembase.model.events.HideProgress;
+import com.example.katguz.android.chembase.model.events.ShowProgress;
 import com.example.katguz.android.chembase.network.ApiClient;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +29,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
+import static com.example.katguz.android.chembase.network.ApiClient.BASE_URL;
+
 public class ChemicalsAdapter extends RecyclerView.Adapter<ChemicalsAdapter.ChemicalsHolder> {
 
 
     private List<Property> properties = new ArrayList<>();
 
     PropertyTable propertyTable = new PropertyTable();
+
+    public static String url;
+
+    private int cidValue;
 
 
     @Inject
@@ -118,26 +128,52 @@ public class ChemicalsAdapter extends RecyclerView.Adapter<ChemicalsAdapter.Chem
             molcular_weight.setText(property.getMolecularFormula());
             // chemicalFormula.setImageBitmap(presenter.getImage());
 
-
-            String urlStr = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/2244/PNG";
-            String url = Uri.parse(urlStr)
-                    .buildUpon()
-                    .build()
-                    .toString();
-
-            Picasso.with(context)
-                    .load(url)
-                    .into(chemicalFormula);
-
-
-            // chemicalFormula.setImageBitmap(bm);
+            setPicassoPicture();
 
 
         }
 
 
+        public void setUrlPath() {
+
+            cidValue = 23;
+            String urlStringParametrized = BASE_URL + "compound/cid/" + cidValue + "/PNG";
+            //String urlStr = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{cidValue}/PNG";
+            url = Uri.parse(urlStringParametrized)
+                    .buildUpon()
+                    .build()
+                    .toString();
+        }
+
+
+        public void setPicassoPicture() {
+            //public static final String BASE_URL = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/";
+/*   @GET("compound/cid/{cidValue}/PNG")
+    Call<ResponseBody> getImagePng(@Path("cidValue") Integer cidValue);
+*/
+            setUrlPath();
+            EventBus.getDefault().post(new ShowProgress());
+
+            Picasso.with(context)
+                    .load(url)
+                    .into(chemicalFormula, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {
+                            EventBus.getDefault().post(new HideProgress());
+                        }
+
+                        @Override
+                        public void onError() {
+
+                            //  presenter.view.showErrorMessage();
+
+                        }
+                    });
+
+        }
+
+
     }
+
+
 }
-
-
-

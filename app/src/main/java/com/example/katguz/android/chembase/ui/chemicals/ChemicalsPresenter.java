@@ -1,7 +1,6 @@
 package com.example.katguz.android.chembase.ui.chemicals;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 import com.example.katguz.android.chembase.model.Chemical;
 import com.example.katguz.android.chembase.model.Property;
@@ -15,7 +14,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,11 +24,12 @@ public class ChemicalsPresenter {
 
 
     private ApiClient apiClient;
-    private ChemicalsMvpView view;
+    protected ChemicalsMvpView view;
     private ChemicalsAdapter adapter;
 
 
     public Bitmap bm;
+
 
 
     public void setAdapter(ChemicalsAdapter adapter) {
@@ -87,7 +86,7 @@ public class ChemicalsPresenter {
     }
 
 
-    public void getImage() {
+/*    public void getImage() {
         apiClient.getService().getImagePng(123).enqueue(new Callback<ResponseBody>() {
 
 
@@ -95,8 +94,8 @@ public class ChemicalsPresenter {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
 
-                  /*  List<Property> list = response.body().getPropertyTable().getProperties();
-                    adapter.setData(list);*/
+                  *//*  List<Property> list = response.body().getPropertyTable().getProperties();
+                    adapter.setData(list);*//*
 
                     bm = BitmapFactory.decodeStream(response.body().byteStream());
                     // adapter.setBm(bm);
@@ -113,5 +112,5 @@ public class ChemicalsPresenter {
             }
         });
 
-    }
+    }*/
 }
