@@ -34,6 +34,7 @@ public class ChemicalsFragment extends Fragment implements ChemicalsMvpView {
     }
 
 
+
     @Inject
     ChemicalsPresenter presenter;
 
@@ -78,7 +79,6 @@ public class ChemicalsFragment extends Fragment implements ChemicalsMvpView {
 
     }
 
-
     @Override
     public void setChemicalAdapter(ChemicalsAdapter adapter) {
         recyclerView.setAdapter(adapter);
@@ -90,6 +90,7 @@ public class ChemicalsFragment extends Fragment implements ChemicalsMvpView {
         Toast.makeText(getContext(), getString(R.string.error_message), Toast.LENGTH_SHORT).show();
 
     }
+
 
 
 }

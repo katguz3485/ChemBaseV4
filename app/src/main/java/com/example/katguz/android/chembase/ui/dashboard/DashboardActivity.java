@@ -1,16 +1,21 @@
 package com.example.katguz.android.chembase.ui.dashboard;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -20,16 +25,22 @@ import com.example.katguz.android.chembase.R;
 import com.example.katguz.android.chembase.model.events.HideProgress;
 import com.example.katguz.android.chembase.model.events.ShowProgress;
 import com.example.katguz.android.chembase.ui.chembase.ChembaseFragment;
+import com.example.katguz.android.chembase.ui.chemicals.ChemicalsAdapter;
 import com.example.katguz.android.chembase.ui.chemicals.ChemicalsFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
 public class DashboardActivity extends AppCompatActivity {
+
+    @Inject
+    Context context;
 
     @BindView(R.id.dashboard_drawer)
     DrawerLayout drawer;
@@ -42,6 +53,8 @@ public class DashboardActivity extends AppCompatActivity {
     @BindView(R.id.dashboard_nav)
     NavigationView navigationView;
 
+    @Inject
+    ChemicalsAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,16 +63,14 @@ public class DashboardActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         setupDraverAndToolbar();
-        //cidNumberInput = (EditText) view.findViewById(R.id.cidNumber);
+
 
         if (savedInstanceState == null) {
             showFragment(new ChemicalsFragment());
             showFragment(new ChembaseFragment());
-
         }
-
-
     }
+
 
     @Override
     public void onBackPressed() {
@@ -78,7 +89,48 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.dashboard_menu, menu);
+        MenuItem searchViewItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchViewItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchView.clearFocus();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(!newText.isEmpty()){
+
+
+                }
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                return true;
+
+            case R.id.menu_chembase:
+                return true;
+
+            case R.id.menu_chemicals:
+                return true;
+            default:
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setupDraverAndToolbar() {
@@ -94,6 +146,11 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
+
+                    case R.id.action_search: {
+                        return true;
+                    }
+
                     case R.id.menu_chemicals: {
                         showFragment(new ChemicalsFragment());
                         return true;
@@ -110,6 +167,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     }
 
+
     @Subscribe
     public void onShowProgress(ShowProgress showProgress) {
         container.setVisibility(View.INVISIBLE);
@@ -121,8 +179,6 @@ public class DashboardActivity extends AppCompatActivity {
         progress.setVisibility(View.GONE);
         container.setVisibility(View.VISIBLE);
     }
-
-
 
 
     private void showFragment(Fragment fragment) {

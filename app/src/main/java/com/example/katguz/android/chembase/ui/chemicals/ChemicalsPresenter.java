@@ -30,6 +30,7 @@ public class ChemicalsPresenter {
 
     public Bitmap bm;
 
+    private int cidValue;
 
 
     public void setAdapter(ChemicalsAdapter adapter) {

@@ -8,7 +8,7 @@ import static com.example.katguz.android.chembase.network.ApiClient.BASE_URL;
 
 public class PicassoHelper implements PicassoService {
 
-    public  String url;
+    public String url;
 
     public String getUrl() {
         return url;
@@ -37,8 +37,13 @@ public class PicassoHelper implements PicassoService {
                 .toString();
     }
 
+    public int getCidValue() {
+        return cidValue;
+    }
 
-
+    public void setCidValue(int cidValue) {
+        this.cidValue = cidValue;
+    }
 
 
 }

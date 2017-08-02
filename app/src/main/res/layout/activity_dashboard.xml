@@ -19,11 +19,14 @@
             android:background="?attr/colorPrimary"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
+
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="?attr/actionBarSize" />
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/dashboard_progress"
+            android:layout_toEndOf="@+id/dashboard_progress" />
 
         <ProgressBar
             android:id="@+id/dashboard_progress"
@@ -31,21 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:visibility="gone" />
-  <!--  <EditText
-            android:id="@+id/cidNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:hint="Type cid Number" />
 
-        <Button
-            android:id="@+id/dataDownload"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Download Compound Data"
-            android:layout_below="@id/cidNumber"
-            tools:layout_editor_absoluteX="136dp"
-            tools:layout_editor_absoluteY="71dp" />&ndash;&gt;-->
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView
