@@ -2,7 +2,6 @@ package com.example.katguz.android.chembase.ui.chemicals;
 
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,7 @@ import com.example.katguz.android.chembase.model.PropertyTable;
 import com.example.katguz.android.chembase.model.events.HideProgress;
 import com.example.katguz.android.chembase.model.events.ShowProgress;
 import com.example.katguz.android.chembase.network.ApiClient;
+import com.example.katguz.android.chembase.network.PicassoHelper;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -29,18 +29,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-import static com.example.katguz.android.chembase.network.ApiClient.BASE_URL;
-
 public class ChemicalsAdapter extends RecyclerView.Adapter<ChemicalsAdapter.ChemicalsHolder> {
 
 
     private List<Property> properties = new ArrayList<>();
 
     PropertyTable propertyTable = new PropertyTable();
-
-    public static String url;
-
-    private int cidValue;
 
 
     @Inject
@@ -69,11 +63,6 @@ public class ChemicalsAdapter extends RecyclerView.Adapter<ChemicalsAdapter.Chem
 
     }
 
- /*   public void setBm() {
-        presenter.getImage();
-        notifyDataSetChanged();
-    }
-*/
 
     @Override
     public ChemicalsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -100,6 +89,8 @@ public class ChemicalsAdapter extends RecyclerView.Adapter<ChemicalsAdapter.Chem
 
     public class ChemicalsHolder extends RecyclerView.ViewHolder {
 
+        private PicassoHelper helper;
+
         @BindView(R.id.chemicalFormula)
         ImageView chemicalFormula;
 
@@ -121,41 +112,20 @@ public class ChemicalsAdapter extends RecyclerView.Adapter<ChemicalsAdapter.Chem
 
         public void setChemical(Property property) {
             // presenter = new ChemicalsPresenter(apiClient);
-
-            Timber.e("setChemical");
+            helper = new PicassoHelper(context);
             name.setText(property.getIUPACName());
             cidNumber.setText(property.getCID());
             molcular_weight.setText(property.getMolecularFormula());
             // chemicalFormula.setImageBitmap(presenter.getImage());
-
             setPicassoPicture();
-
-
-        }
-
-
-        public void setUrlPath() {
-
-            cidValue = 23;
-            String urlStringParametrized = BASE_URL + "compound/cid/" + cidValue + "/PNG";
-            //String urlStr = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{cidValue}/PNG";
-            url = Uri.parse(urlStringParametrized)
-                    .buildUpon()
-                    .build()
-                    .toString();
         }
 
 
         public void setPicassoPicture() {
-            //public static final String BASE_URL = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/";
-/*   @GET("compound/cid/{cidValue}/PNG")
-    Call<ResponseBody> getImagePng(@Path("cidValue") Integer cidValue);
-*/
-            setUrlPath();
+            helper.setUrlPath();
             EventBus.getDefault().post(new ShowProgress());
-
             Picasso.with(context)
-                    .load(url)
+                    .load(helper.getUrl())
                     .into(chemicalFormula, new com.squareup.picasso.Callback() {
                         @Override
                         public void onSuccess() {
@@ -164,7 +134,6 @@ public class ChemicalsAdapter extends RecyclerView.Adapter<ChemicalsAdapter.Chem
 
                         @Override
                         public void onError() {
-
                             //  presenter.view.showErrorMessage();
 
                         }
