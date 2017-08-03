@@ -1,5 +1,6 @@
 package com.example.katguz.android.chembase.ui.dashboard;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -95,32 +95,43 @@ public class DashboardActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.dashboard_menu, menu);
-        MenuItem searchViewItem = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchViewItem);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+
+        SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(this.getComponentName()));
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchView.clearFocus();
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(!newText.isEmpty()){
-
+                if (!newText.isEmpty()) {
+                   /* adapter = new ChemicalsAdapter(context);
+                    List<Property> data = new ArrayList();
+                    adapter.setData(data);
+                    adapter.notifyDataSetChanged();*/
 
                 }
-                return false;
+                return true;
             }
         });
+
+
         return super.onCreateOptionsMenu(menu);
     }
 
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_search:
-                return true;
 
+            case R.id.action_search: {
+                return true;
+            }
             case R.id.menu_chembase:
                 return true;
 
@@ -146,8 +157,8 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-
                     case R.id.action_search: {
+
                         return true;
                     }
 

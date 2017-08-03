@@ -112,7 +112,7 @@ public class ChemicalsAdapter extends RecyclerView.Adapter<ChemicalsAdapter.Chem
 
         public void setChemical(Property property) {
             // presenter = new ChemicalsPresenter(apiClient);
-            helper = new PicassoHelper(context);
+            helper = new PicassoHelper();
             name.setText(property.getIUPACName());
             cidNumber.setText(property.getCID());
             molcular_weight.setText(property.getMolecularFormula());

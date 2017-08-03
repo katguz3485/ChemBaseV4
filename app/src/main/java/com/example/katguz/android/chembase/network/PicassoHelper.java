@@ -1,8 +1,9 @@
 package com.example.katguz.android.chembase.network;
 
 
-import android.content.Context;
 import android.net.Uri;
+
+import com.example.katguz.android.chembase.model.Property;
 
 import static com.example.katguz.android.chembase.network.ApiClient.BASE_URL;
 
@@ -14,36 +15,24 @@ public class PicassoHelper implements PicassoService {
         return url;
     }
 
-    private int cidValue;
+    Property property;
+
+     int cidValue;
 
     private String urlStringParametrized;
 
-    private Context context;
-
-
-    public PicassoHelper(Context context) {
-
-    }
-
     public void setUrlPath() {
 
-        cidValue = 23;
+        property=new Property();
+        property.setCidValue(23);
+        property.getCidValue();
 
-        urlStringParametrized = BASE_URL + "compound/cid/" + cidValue + "/PNG";
+        urlStringParametrized = BASE_URL + "compound/cid/" + property.getCidValue() + "/PNG";
 
         url = Uri.parse(urlStringParametrized)
                 .buildUpon()
                 .build()
                 .toString();
     }
-
-    public int getCidValue() {
-        return cidValue;
-    }
-
-    public void setCidValue(int cidValue) {
-        this.cidValue = cidValue;
-    }
-
 
 }

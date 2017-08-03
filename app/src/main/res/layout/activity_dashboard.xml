@@ -8,6 +8,13 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
+    <android.support.design.widget.NavigationView
+        android:id="@+id/dashboard_nav"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/dashboard_menu" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -25,8 +32,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/dashboard_progress"
-            android:layout_toEndOf="@+id/dashboard_progress" />
+            android:layout_toEndOf="@+id/dashboard_progress"
+            android:layout_toRightOf="@+id/dashboard_progress" />
 
         <ProgressBar
             android:id="@+id/dashboard_progress"
@@ -36,12 +43,5 @@
             android:visibility="gone" />
 
     </RelativeLayout>
-
-    <android.support.design.widget.NavigationView
-        android:id="@+id/dashboard_nav"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:menu="@menu/dashboard_menu" />
 
 </android.support.v4.widget.DrawerLayout>

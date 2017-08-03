@@ -28,9 +28,20 @@ public class Property {
     @Expose
     private String iUPACName;
 
+    private int cidValue;
+
+
 
     public String getCID() {
         return cID;
+    }
+
+    public int getCidValue() {
+        return cidValue;
+    }
+
+    public void setCidValue(int cidValue) {
+        this.cidValue = cidValue;
     }
 
     public void setCID(String cID) {
@@ -76,5 +87,7 @@ public class Property {
     public void setIUPACName(String iUPACName) {
         this.iUPACName = iUPACName;
     }
+
+
 }
 
