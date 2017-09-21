@@ -111,10 +111,7 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (!newText.isEmpty()) {
-                   /* adapter = new ChemicalsAdapter(context);
-                    List<Property> data = new ArrayList();
-                    adapter.setData(data);
-                    adapter.notifyDataSetChanged();*/
+                   //TODO
 
                 }
                 return true;

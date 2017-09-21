@@ -26,12 +26,43 @@
             android:background="?attr/colorPrimary"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
+        <!--<TextView-->
+        <!--android:id="@+id/enteredCidNumberValue"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/dashboard_toolbar"-->
+        <!--android:hint="@string/enterdedCidNumber"-->
+        <!--android:text="Cid Number"-->
+        <!--/>-->
+
+        <EditText
+            android:id="@+id/cidNumberInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dashboard_toolbar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="54dp"
+            android:gravity="center_vertical"
+            android:hint="@string/cidNumberInput"
+
+            />
+
+        <Button
+            android:id="@+id/cidNumberSubmit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cidNumberInput"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical"
+            android:text="Query"
+            android:textAlignment="center"
+            />
 
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/dashboard_progress"
             android:layout_toRightOf="@+id/dashboard_progress" />
 
